@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self'" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css">
+    <script src="./js/renderer.js" defer></script>
+    <title>FracDetect</title>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <div class="logo"></div>
+            <div class="select">
+                <input list="technique" class="choice" placeholder="Select a medical imaging technique...">
+                <datalist id="technique">
+                    <option value="IRM">
+                    <option value="Scanner">
+                    <option value="Radiographie">
+            </datalist> 
+            </div>
+            <div class="select">
+                <input list="bodyPart" class="choice" placeholder="Select the part of the body...">
+                <datalist id="bodyPart">
+                    <option value="Skull">
+                    <option value="Spine">
+                    <option value="Chest">
+                    <option value="Arm">
+                    <option value="Hand">
+                    <option value="Leg">
+                    <option value="Feet">
+                </datalist> 
+            </div>
+        </div>
+        <div class="section">
+            <label class="btnAddImage">
+                <span class="txtAddImage">Select an image to analyze</span>
+                <input hidden id="img" type="file" />
+            </label>
+            <div hidden class="containsPreviewImage">
+                <img id="preview-img" src="" alt="Preview Image" />
+            </div>
+        </div>
+        <div class="section"></div>
+    </div>
+</body>  
+</html>

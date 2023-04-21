@@ -1,0 +1,18 @@
+{
+  "name": "fracdetect",
+  "productName": "FracDetect",
+  "version": "1.0.0",
+  "description": "App to detect fracture",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Lamrani Zaid & Torchi Hossam",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^24.1.2",
+    "fs": "^0.0.1-security",
+    "resize-img": "^2.0.0",
+    "toastify-js": "^1.12.0"
+  }
+}
