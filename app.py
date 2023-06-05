@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QFileDialog, QLabel, QMainWindow, QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QComboBox, QMessageBox
+from PyQt5.QtWidgets import QApplication, QFileDialog, QLabel, QMainWindow, QHBoxLayout, QVBoxLayout, QWidget, QPushButton, QComboBox, QMessageBox, QListWidget
 from PyQt5.QtCore import Qt, QSize, QCoreApplication
 from PyQt5.QtGui import QPixmap, QIcon, QFont
 from PyQt5 import QtCore
@@ -9,6 +9,7 @@ class MainWindow(QMainWindow):
     nbre_predict_btn = 0
     part_of_body = None
     type = None
+    selected_options = None
     def __init__(self):
         super().__init__()
 
@@ -118,15 +119,43 @@ class MainWindow(QMainWindow):
 
         # Ajout des options aux QComboBox
         combo1.addItem("Body Part")
-        combo1.addItems(["ELBOW", "FINGER", "FOREARM", "HAND", "HUMERUS" , "SHOULDER", "WRIST"])
+        combo1.addItems(["HIP", "RIB", "ELBOW", "FINGER", "HAND","HUMERUS" , "FOREARM", "SHOULDER", "WRIST", "LEG"])
         combo2.addItem("Type")
-        combo2.addItems(["Radiology", "Scanner", "IRM"])
+        combo2.addItems(["Radiograph", "IRM", "CT Scan", "Ultrasound"])
+
+        # Création de la listWidget et ajout des options
+        listWidget = QListWidget()
+        listWidget.setSelectionMode(QListWidget.MultiSelection)
+        listWidget.addItem("Accuracy")
+        listWidget.addItem("Precision")
+        listWidget.addItem("Recall")
+        listWidget.addItem("F1 Score")
+        listWidget.addItem("Mean Absolute Error")
+        listWidget.addItem("Mean Squared Error")
+
+        listWidget.setStyleSheet('''
+        QListWidget {
+                background-color: #DDDDDD;
+                border: 1px solid #CCCCCC;
+                padding: 10px;
+                font-size: 14px;
+                color: #000000;
+                min-width: 150px;
+            }
+            QListWidget::item {
+                color: #000000;
+            }
+            QListWidget::item:hover {
+                background-color: #CCCCCC;
+            }
+        ''')
+
 
         # Création du QPushButton
         button = QPushButton("Update values")
 
         # Connexion du signal clicked du QPushButton à la fonction on_button_clicked
-        button.clicked.connect(lambda: self.on_button_clicked(combo1, combo2))
+        button.clicked.connect(lambda: self.on_button_clicked(combo1, combo2, listWidget))
 
         # Création du QVBoxLayout pour organiser les widgets verticalement
         part12_layout = QVBoxLayout()
@@ -135,6 +164,8 @@ class MainWindow(QMainWindow):
         # Ajout des QComboBox et du QPushButton au QVBoxLayout
         part12_layout.addWidget(combo1)
         part12_layout.addWidget(combo2)
+        part12_layout.addWidget(listWidget)
+        listWidget.setMaximumHeight(listWidget.count() * listWidget.sizeHintForRow(0))
         part12_layout.addWidget(button)
 
         # Définition du QGroupBox comme widget central du QLabel
@@ -281,14 +312,16 @@ class MainWindow(QMainWindow):
         part5_label.hide()
         part6_label.hide()
 
-    def on_button_clicked(self, combo1, combo2):
+    def on_button_clicked(self, combo1, combo2, listWidget):
         if combo1.currentText() == "Body Part" or combo2.currentText() =="Type":
             self.show_error_messages()
         else:
             self.part_of_body = combo1.currentText()
             self.type = combo2.currentText()
+            self.selected_options = [item.text() for item in listWidget.selectedItems()]
             print("Body part:", self.part_of_body)
             print("Type:", self.type)
+            print(self.selected_options)
 
     def show_error_messages(self):
         message_box = QMessageBox()
